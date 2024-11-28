@@ -13,7 +13,19 @@ function App() {
   const [email, setEmail] = useState("");
   const [emailMessage, setEmailMessage] = useState("");
 
-  
+  const [task, setTask] = useState("");
+  const [taskList, setTaskList] = useState([]);
+
+  function addTask() {
+    if (task.trim() !== "") {
+      setTaskList((prevTasks) => [...prevTasks, task]);
+      setTask("");
+    }
+  }
+
+  function deleteTask(index) {
+    setTaskList((prevTasks) => prevTasks.filter((_, i) => i !== index));
+  }
 
   function handleFruits(e, value) {
     if (e.target.checked) {
@@ -345,6 +357,61 @@ function App() {
           </span>
         </div>
       </form>
+
+      {/* 
+      
+      
+      
+      */}
+
+      {/* form todo list*/}
+
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          addTask();
+        }}
+        className="flex flex-col items-center gap-8 mt-8">
+        <label htmlFor="task-input" className="font-medium text-lg">
+          7. To-do ro'yxat yaratish Vazifa: Formada foydalanuvchi biror vazifani
+          kiritadigan input va "Qo'shish" tugmasi bo'lsin. Har safar tugmani
+          bosganda, vazifa ro’yxatga qo’shilsin va ro’yxat pastda dinamik tarzda
+          ko’rinsin. Qo'shimcha talab: Har bir vazifa yonida "O'chirish" tugmasi
+          bo'lsin. Bu tugma bosilganda, tegishli vazifa ro'yxatdan o'chsin.
+        </label>
+        <input
+          type="text"
+          id="task-input"
+          value={task}
+          onChange={(e) => setTask(e.target.value)}
+          placeholder="Vazifa kiriting"
+          className="border mt-4 w-[50%] p-3 rounded-xl"
+        />
+        <span
+          type="span"
+          onClick={addTask}
+          className="btn border cursor-pointer px-4 py-2 rounded-xl w-[50%] border-[black]">
+          Add
+        </span>
+      </form>
+
+      <div className="mt-8">
+        <h3 className="font-medium text-xl">Vazifalar ro'yxati:</h3>
+        <ul className="list-disc pl-5 mt-4">
+          {taskList.map((task, index) => (
+            <li
+              key={index}
+              className="flex justify-between border border-2 p-2 rounded-lg items-center">
+              <span>{task}</span>
+              <span
+                onClick={() => deleteTask(index)}
+                className="text-lg text-black p-1 rounded-md ml-4">
+                x
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
     </>
   );
 }
